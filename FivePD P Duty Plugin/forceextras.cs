@@ -17,8 +17,10 @@ namespace forceextras
         {
             internal Plugin()
             {
+                //Version 2.0: Sets extras and livery!  Now removed annoying debug crap!
 
                 EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(EnableExtras); //Natixco
+                EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(setLivery); //Natixco
 
             }
 
@@ -32,13 +34,11 @@ namespace forceextras
                 var config = API.LoadResourceFile(API.GetCurrentResourceName(), "/config/vehicles.json");
                 var json = JObject.Parse(config);
                 JToken policeVehicles = json["police"];
-                Debug.Write("\nVehicle Name: " + vehiclename);
 
                 if (policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename)["extras"] != null)
                 {
                 JToken playerVehicleConfig = policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename);
                     JToken extras = playerVehicleConfig["extras"];
-                    Debug.Write("\n Extras:" + extras);
 
                     if (extras.ToString() == "all")
                     {
@@ -91,7 +91,6 @@ namespace forceextras
                             if (pvehicle.ExtraExists(extra))
                             {
                                 pvehicle.ToggleExtra(extra, true);
-                                Debug.Write("\nExtra " + extra + " activated.");
                             } else
                             {
                                 Debug.Write("\nExtra " + extra + " doesn't exist on vehicle " + vehiclename.ToLower());
@@ -100,7 +99,30 @@ namespace forceextras
                     }
                 } else
                 {
-                    Debug.Write("\n" + vehiclename + " has no extras defined in vehicles.json.");
+
+                }
+                return;
+            }
+
+            private void setLivery(int playerServerID, int vehicleNetworkID)
+            {
+
+
+                Vehicle pvehicle = Game.PlayerPed.CurrentVehicle;
+                var vehiclename = Game.PlayerPed.CurrentVehicle.DisplayName.ToLower();
+                var config = API.LoadResourceFile(API.GetCurrentResourceName(), "/config/vehicles.json");
+                var json = JObject.Parse(config);
+                JToken policeVehicles = json["police"];
+
+                if (policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename)["livery"] != null)
+                {
+                    JToken playerVehicleConfig = policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename);
+                    JToken livery = playerVehicleConfig["livery"];
+                    API.SetVehicleLivery(pvehicle.Handle, ((int)livery));
+
+                }
+                else
+                {
 
                 }
                 return;

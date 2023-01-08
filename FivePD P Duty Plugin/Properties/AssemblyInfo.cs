@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FivePD P Duty Plugin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("FivePD Force Extras and Livery")]
+[assembly: AssemblyDescription("Force vehicle extras/livery on spawn based on your vehicles.json file")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("FivePD P Duty Plugin")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
