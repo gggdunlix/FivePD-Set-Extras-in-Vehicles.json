@@ -18,9 +18,10 @@ namespace forceextras
             internal Plugin()
             {
                 //Version 2.0: Sets extras and livery!  Now removed annoying debug crap!
-
+                //Version 3.0.0 Merges the Callsign Plate plugin into this plugin. Now, adding "SetCallsignOnPlate" to true in the vehicle's config should set the vehicle's plate to be your callsign.
                 EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(EnableExtras); //Natixco
                 EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(setLivery); //Natixco
+                EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(setPlate); //Natixco
 
             }
 
@@ -123,6 +124,43 @@ namespace forceextras
                 }
                 else
                 {
+
+                }
+                return;
+            }
+            private void setPlate(int playerServerID, int vehicleNetworkID)
+            {
+
+
+                Vehicle pvehicle = Game.PlayerPed.CurrentVehicle;
+                var vehiclename = Game.PlayerPed.CurrentVehicle.DisplayName.ToLower();
+                var config = API.LoadResourceFile(API.GetCurrentResourceName(), "/config/vehicles.json");
+                var json = JObject.Parse(config);
+                JToken policeVehicles = json["police"];
+
+                if (policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename)["SetCallsignOnPlate"] != null)
+                {
+                    JToken playerVehicleConfig = policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename);
+                    if (playerVehicleConfig["SetCallsignOnPlate"].Equals("true"))
+                    {
+                        if (pvehicle.NetworkId > 0)
+                        {
+                            PlayerData data = Utilities.GetPlayerData();
+                            string Callsign = data.Callsign;
+                            //with help from Grandpa Rex
+                            var vehicle = Entity.FromNetworkId(pvehicle.NetworkId);
+                            API.SetVehicleNumberPlateText(vehicle.Handle, Callsign);
+
+                        }
+                        else
+                        {
+                            Debug.WriteLine("FivePD | Vehicles.json extended functions plugin: There was an error setting your callsign to your vehicle's plate.");
+                        }
+                    }
+                    else if (playerVehicleConfig["SetCallsignOnPlate"].Equals("false")) { } else
+                    {
+                        Debug.WriteLine("FivePD | Vehicles.json extended functions plugin: Your \"SetCallsignOnPlate\" field in vehicles.json should be 'true' or 'false'");
+                    }
 
                 }
                 return;
