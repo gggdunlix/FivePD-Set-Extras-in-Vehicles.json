@@ -16,7 +16,7 @@ In this example, the `police4` vehicle will always spawn with the `0` livery ena
 
 - the `livery:` line must have a number value, representing which livery to spawn. If the line is not present, the livery will be random.
 - the `extras:` line must have either a number value, or an array of numbers, ex: `[1]`, or `[1, 3, 5]`, or `4`. However, you can also set the value as a string of `"all"` or `"none"` to set all available extras enabled or disabled.
-- the `SetPlateToCallsign:` line must be set to `true` or `false`. If it isn't there, it will default to `false`. If a value other than `true`/`false` is set, there will be an error 
+- the `SetCallsignOnPlate:` line must be set to `true` or `false`. If it isn't there, it will default to `false`. If a value other than `true`/`false` is set, there will be an error 
 
 Don't forget to add commas (,) to the end of lines when creating new lines! (not the last line)
 
