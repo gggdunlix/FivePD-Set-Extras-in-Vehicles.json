@@ -141,7 +141,7 @@ namespace forceextras
                 if (policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename)["SetCallsignOnPlate"] != null)
                 {
                     JToken playerVehicleConfig = policeVehicles.FirstOrDefault(vehicle => vehicle["vehicle"].ToString().ToLower() == vehiclename);
-                    if (playerVehicleConfig["SetCallsignOnPlate"].Equals("true"))
+                    if (((bool)playerVehicleConfig["SetCallsignOnPlate"]))
                     {
                         if (pvehicle.NetworkId > 0)
                         {
@@ -157,7 +157,7 @@ namespace forceextras
                             Debug.WriteLine("FivePD | Vehicles.json extended functions plugin: There was an error setting your callsign to your vehicle's plate.");
                         }
                     }
-                    else if (playerVehicleConfig["SetCallsignOnPlate"].Equals("false")) { } else
+                    else if (!((bool)playerVehicleConfig["SetCallsignOnPlate"])) { } else
                     {
                         Debug.WriteLine("FivePD | Vehicles.json extended functions plugin: Your \"SetCallsignOnPlate\" field in vehicles.json should be 'true' or 'false'");
                     }
